@@ -16,7 +16,7 @@ class ViewController: UIViewController, SecondViewControllerDelegate {
         label.text = "입력 결과를 출력합니다."
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 24)
-        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
