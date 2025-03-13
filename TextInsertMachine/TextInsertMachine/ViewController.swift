@@ -22,14 +22,15 @@ class ViewController: UIViewController, SecondViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .lightGray
         // Do any additional setup after loading the view.
         setupUI()
     }
     
     func setupUI() {
         let label = UILabel()
-        label.text = "Typer Whatever You Like"
-        label.textColor = .black
+        label.text = "Type Whatever You Like"
+        label.textColor = .cyan
         label.font = UIFont.systemFont(ofSize: 30)
         label.textAlignment = .center
         label.frame = CGRect(x: 30, y: 100, width: view.frame.width - 60, height: 50)
@@ -56,7 +57,7 @@ class ViewController: UIViewController, SecondViewControllerDelegate {
     @objc func goSecond() {
         let secondVC = SecondViewController()
         secondVC.delegate = self
-        self.present(secondVC, animated: true)
+        self.navigationController?.pushViewController(secondVC, animated: true)
         }
 }
 

@@ -51,7 +51,7 @@ class SecondViewController: UIViewController {
         button.frame = CGRect(x: 20, y: 300, width: view.frame.width - 40, height: 40)
 
         button.addAction(UIAction { [weak self] _ in
-          self?.dismiss(animated: true)
+            self?.navigationController?.popViewController(animated: true)
           // SecondViewController가 사라질 때 delegate에게 메시지를 전달
           self?.delegate?.didDismissSecondViewController(message: self?.messageTextField.text ?? "")
         }, for: .touchUpInside)
