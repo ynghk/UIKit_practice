@@ -76,6 +76,7 @@ class ViewController: UIViewController {
     func setupSwitch() {
         let switchControl = UISwitch()
         switchControl.translatesAutoresizingMaskIntoConstraints = false
+        print(switchControl)
         
         let label = UILabel()
         label.text = "Switch"
