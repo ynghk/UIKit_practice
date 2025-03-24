@@ -7,31 +7,93 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource {
+struct Animal {
+    let name: String
+    let image: UIImage
+}
+
+struct AnimalCategory {
+    let category: String
+    let animals: [Animal]
+}
+
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    let categories = [
+        AnimalCategory(category: "포유류", animals: [
+            Animal(name: "사자", image: UIImage(systemName: "circle.inset.filled")!),
+            Animal(name: "호랑이", image: UIImage(systemName: "circle.inset.filled")!),
+            Animal(name: "곰", image: UIImage(systemName: "circle.inset.filled")!),
+        ]),
+        
+        AnimalCategory(category: "조류", animals: [
+            Animal(name: "독수리", image: UIImage(systemName: "circle")!),
+            Animal(name: "부엉이", image: UIImage(systemName: "circle")!),
+            Animal(name: "참색", image: UIImage(systemName: "circle")!)
+        ]),
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let tableView = UITableView(frame: view.bounds, style: .plain)
+        let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
+        
+        // 테이블 뷰의 데이터 소스를 현재 뷰 컨트롤러로 설정
         tableView.dataSource = self
+        
+        tableView.delegate = self
+        
+        // 커스텀 셀을 등록
+        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         
         view.addSubview(tableView)
         
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+    
+    // MARK: UITableViewDataSource
+    
+    
+    // 섹션의 개수를 반환하는 메서드
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return categories.count
     }
     
+    // MARK: - UITableViewDataSource
+    // 섹션에 표함된 행의 개수를 반환하는 메서드
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return categories[section].animals.count
+    }
+    
+    // 셀을 생성하고 구성하는 메서드
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        }
-        cell?.textLabel?.text = "\(indexPath.row)"
-        return cell!
+        // 셀을 재사용 큐에서 가져옴
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        
+        let animal = categories[indexPath.section].animals[indexPath.row]
+        
+        cell.configure(image: animal.image, name: animal.name)
+        
+        return cell
+    }
+    
+    //헤더 뷰를 반환
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return categories[section].category
+    }
+    
+    // MARK: - UITableDelegate
+    // 행이 선택되었을 때 호출
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("선택 된 행: \(indexPath.row)")
+    }
+    
+    // 행의 높이를 반환
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 }
+
 
 #Preview {
     UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
